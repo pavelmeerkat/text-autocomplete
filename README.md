@@ -1,6 +1,7 @@
-# LSTM Text Autocomplete
+# Text Autocomplete
 
-Проект для обучения LSTM модели автодополнения текста на основе твитов с комплексной системой оценки и сравнения с baseline моделями.
+Проект для обучения LSTM модели автодополнения текста на основе датасета sentiment140 и сравнения с baseline моделью 
+DistilGPT2.
 
 ## Структура проекта
 
@@ -21,14 +22,15 @@ models/
 
 src/
 ├── __init__.py
-├── configs.py              # Конфигурация проекта
-├── data_utils.py           # Утилиты обработки данных
-├── next_token_dataset.py   # Dataset класс для обучения
-├── lstm_model.py           # LSTM модель
-├── lstm_train.py           # Функции обучения
-├── eval_lstm.py            # Оценка LSTM модели
-├── baseline_comparison.py  # Сравнение с baseline моделью (DistilGPT2)
-└── model_evaluation.py     # Оценка и сравнение моделей
+├── configs.py                    # Конфигурация проекта
+├── data_utils.py                 # Утилиты обработки данных
+├── next_token_dataset.py         # Dataset класс для обучения
+├── lstm_model.py                 # LSTM модель
+├── lstm_train.py                 # Функции обучения
+├── eval_lstm.py                  # Оценка LSTM модели
+├── eval_transformer_pipeline.py  # Оценка трансформера
+├── baseline_comparison.py        # Сравнение с baseline моделью (DistilGPT2)
+└── model_evaluation.py           # Оценка и сравнение моделей
 
 .gitignore
 solution.ipynb              # Основной ноутбук с полным pipeline: обучение, оценка, сравнение
@@ -44,14 +46,11 @@ pip install -r requirements.txt
 
 2. Скачайте данные и создайте необходимые папки:
 ```bash
-# Создайте папку для данных и сохранения весов обученных моделей
-mkdir -p data
-
 # Скачайте файл с твитами
-curl -o data/tweets.txt https://code.s3.yandex.net/deep-learning/tweets.txt
+wget -P data/ https://code.s3.yandex.net/deep-learning/tweets.txt
 ```
 
-3. Обработанные данные будут созданы автоматически при первом запуске обучения через solution.ipynb или main.py
+3. Обработанные данные будут созданы автоматически при первом запуске обучения через solution.ipynb
 
 ## Использование
 
@@ -59,8 +58,6 @@ curl -o data/tweets.txt https://code.s3.yandex.net/deep-learning/tweets.txt
 - Загрузка и предобработка данных
 - Обучение LSTM модели
 - Сравнение с baseline моделью (DistilGPT2)
-- Подбор оптимальных параметров генерации
-- Анализ чувствительности к температуре
 - Генерация примеров и создание отчетов
 
 ## Конфигурация
@@ -74,7 +71,7 @@ model:
   num_layers: 3           # Количество слоев LSTM
 
 training:
-  epochs: 8              # Количество эпох
+  epochs: 10             # Количество эпох
   lr: 0.0001             # Скорость обучения
   weight_decay: 0.00001  # L2 регуляризация
   batch_size: 32         # Размер батча
@@ -102,4 +99,3 @@ generation:
 - Потери на обучении и валидации
 - ROUGE-L метрику на валидации
 - Сравнение производительности моделей
-- Анализ влияния параметров генерации

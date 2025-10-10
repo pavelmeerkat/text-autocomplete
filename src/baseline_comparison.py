@@ -28,9 +28,13 @@ class DistilGPT2Baseline:
             
         print("Модель загружена успешно!")
     
-    def generate(self, text: str, max_new_tokens: int = 20, 
-                 do_sample: bool = True, top_k: int = 50, 
-                 top_p: float = 0.95, temperature: float = 1.0) -> str:
+    def generate(self, 
+            text: str, 
+            max_new_tokens: int = 20, 
+            do_sample: bool = True, 
+            top_k: int = 50, 
+            top_p: float = 0.95, 
+            temperature: float = 1.0) -> str:
         generation_kwargs = {
             "max_new_tokens": max_new_tokens,
             "do_sample": do_sample,
@@ -48,10 +52,13 @@ class DistilGPT2Baseline:
         result = self.generator(text, **generation_kwargs)
         return result[0]["generated_text"]
     
-    def evaluate_rouge(self, val_texts: List[str], max_samples: int = 2000, 
-                      max_new_tokens: int = 20, do_sample: bool = True, 
-                      top_k: int = 50, top_p: float = 0.95, 
-                      temperature: float = 1.0) -> Dict[str, float]:
+    def evaluate_rouge(self, 
+            val_texts: List[str], 
+            max_samples: int = 2000, 
+            do_sample: bool = True, 
+            top_k: int = 50, 
+            top_p: float = 0.95, 
+            temperature: float = 1.0) -> Dict[str, float]:
         preds, refs = [], []
         processed = 0
         
